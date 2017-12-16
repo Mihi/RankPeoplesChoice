@@ -18,7 +18,7 @@ namespace RankPeoplesChoice
             CalculateMatches(articles);
 
             var maxCorrect = articles.Max(p => p.CorrectGuesses.Count);
-            foreach (var article in articles.Where(p=>p.CorrectGuesses.Count == maxCorrect))
+            foreach (var article in articles.OrderBy(p=>p.CorrectGuesses.Count))// articles.Where(p=>p.CorrectGuesses.Count == maxCorrect))
             {
                 Console.WriteLine(article.Username);
                 Console.WriteLine(article.Link);
@@ -75,8 +75,9 @@ namespace RankPeoplesChoice
 
         private static List<Article> GetArticles()
         {
-            var xml = new WebClient().DownloadString("https://www.boardgamegeek.com/xmlapi2/thread?id=1901961");
-            XDocument doc = XDocument.Parse(xml);
+            //var xml = new WebClient().DownloadString("https://www.boardgamegeek.com/xmlapi2/thread?id=1901961");
+            //XDocument doc = XDocument.Parse(xml);
+            var doc = XDocument.Load(@".\votes.xml");
             var articles = doc.Descendants("article");
 
             var result = new List<Article>();
